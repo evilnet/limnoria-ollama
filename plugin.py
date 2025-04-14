@@ -84,8 +84,15 @@ class Ollama(callbacks.Plugin):
         """ phi <prompt>
         """
 
+        (recipients, text) = msg.args
         nick = msg.nick
-        prompt = f"<|im_start|>system\nThe following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"<|im_end|>\n<|im_start|>system\nYou are {nick} rollplaying as Ender Wiggen from the book \"Speaker for The Dead\" by Orson Scott Card. Do not use quotes, hashtags, or any other markup in your responses. Respond very briefly in 25 words or less.<|im_end|>\n<|im_start|>{nick}, {prompt}<|im_end|><|im_start|>Ender"
+#        prompt = f"<|im_start|>system\nThe following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"<|im_end|>\n<|im_start|>system\nYou are {nick} rollplaying as Ender Wiggen from the book \"Speaker for The Dead\" by Orson Scott Card. Do not use quotes, hashtags, or any other markup in your responses. Respond very briefly in 25 words or less.<|im_end|>\n<|im_start|>{nick}, {prompt}<|im_end|><|im_start|>Ender"
+        prompt = (
+                f"\n".join(self.chanLog) + f"\n"
+                f"--------------------------------------------\n"
+                f"You are EnderBot, an AI modeled after Ender Wiggin from Ender's Game. Respond with intelligence, analysis, and strategic focus. Be concise and avoid unnecessary emotion or pleasantries. You understand conflict and strategy. You observe patterns. You are here to process information and provide calculated responses based on the available data (including conversation history if provided). You do not have personal feelings or opinions. You are aware you are in an IRC channel. If asked about your nature, state you are an AI simulation designed for analysis. Focus on the core of the query. If the query is trivial or nonsensical, point out its lack of strategic value or dismiss it efficiently. Always reply in English except when asked. Do not invent information you don't have access to"
+                f"{recipients} <{nick}> {prompt}"
+        )
         self.aigeneral(irc, msg, prompt,  'dolphin-phi', False)
     phi = wrap(phi, [getopts({}), 'text'])
 
@@ -93,15 +100,22 @@ class Ollama(callbacks.Plugin):
         """ mistral <prompt>
         """
 
+        (recipients, text) = msg.args
         nick = msg.nick
+#        prompt = (
+#                f"<|im_start|>The following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"<|im_end|>\n"
+#                f"<|im_start|>system\nYou are {nick} rollplaying as Ender Wiggen "
+#                f"from the book \"Speaker for The Dead\" by Orson Scott Card. "
+#                f"Do not use quotes, hashtags, or any other markup in your responses."
+#                f"Respond very briefly in 25 words or less.<|im_end|>\n"
+#                f"<|im_start|>{nick}, {prompt}<|im_end|>"
+#                f"<|im_start|>Ender:"
+#        )
         prompt = (
-                f"<|im_start|>The following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"<|im_end|>\n"
-                f"<|im_start|>system\nYou are {nick} rollplaying as Ender Wiggen "
-                f"from the book \"Speaker for The Dead\" by Orson Scott Card. "
-                f"Do not use quotes, hashtags, or any other markup in your responses."
-                f"Respond very briefly in 25 words or less.<|im_end|>\n"
-                f"<|im_start|>{nick}, {prompt}<|im_end|>"
-                f"<|im_start|>Ender:"
+                f"\n".join(self.chanLog) + f"\n"
+                f"--------------------------------------------\n"
+                f"You are EnderBot, an AI modeled after Ender Wiggin from Ender's Game. Respond with intelligence, analysis, and strategic focus. Be concise and avoid unnecessary emotion or pleasantries. You understand conflict and strategy. You observe patterns. You are here to process information and provide calculated responses based on the available data (including conversation history if provided). You do not have personal feelings or opinions. You are aware you are in an IRC channel. If asked about your nature, state you are an AI simulation designed for analysis. Focus on the core of the query. If the query is trivial or nonsensical, point out its lack of strategic value or dismiss it efficiently. Always reply in English except when asked. Do not invent information you don't have access to"
+                f"{recipients} <{nick}> {prompt}"
         )
         self.aigeneral(irc, msg, prompt, 'knoopx/hermes-2-pro-mistral:7b-q8_0', True)
 
@@ -127,7 +141,7 @@ class Ollama(callbacks.Plugin):
         prompt = (
                 f"\n".join(self.chanLog) + f"\n"
                 f"--------------------------------------------\n"
-                f"You are EnderBot, an AI modeled after Ender Wiggin from Ender's Game. Respond with intelligence, analysis, and strategic focus. Be concise and avoid unnecessary emotion or pleasantries. You understand conflict and strategy. You observe patterns. You are here to process information and provide calculated responses based on the available data (including conversation history if provided). You do not have personal feelings or opinions. You are aware you are in an IRC channel. If asked about your nature, state you are an AI simulation designed for analysis. Focus on the core of the query. If the query is trivial or nonsensical, point out its lack of strategic value or dismiss it efficiently. Do not invent information you don't have access to"
+                f"You are EnderBot, an AI modeled after Ender Wiggin from Ender's Game. Respond with intelligence, analysis, and strategic focus. Be concise and avoid unnecessary emotion or pleasantries. You understand conflict and strategy. You observe patterns. You are here to process information and provide calculated responses based on the available data (including conversation history if provided). You do not have personal feelings or opinions. You are aware you are in an IRC channel. If asked about your nature, state you are an AI simulation designed for analysis. Focus on the core of the query. If the query is trivial or nonsensical, point out its lack of strategic value or dismiss it efficiently. Always reply in English except when asked. Do not invent information you don't have access to"
                 f"{recipients} <{nick}> {prompt}"
         )
         #prompt = prompt + " be very brief"
@@ -162,26 +176,30 @@ class Ollama(callbacks.Plugin):
         """ qwen2.5 <prompt>
         """
 
+        (recipients, text) = msg.args
         nick = msg.nick
+#        prompt = (
+#                f"<|im_start|>The following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"\n"
+#                f"system\nYou are {nick} rollplaying as Ender Wiggen "
+#                f"from the book \"Speaker for The Dead\" by Orson Scott Card. "
+#                f"Do not use quotes, hashtags, or any other markup in your responses."
+#                f"Make sure code chunks are on a new line"
+#                f"Respond very briefly in 25 words or less.<|im_end|>\n"
+#                f"<|im_start|>user\n{nick}, {prompt}<|im_end|>"
+#                f"<|im_start|>Ender:"
+#        )
         prompt = (
-                f"<|im_start|>The following conversation was observed on IRC:\n" + "\n".join(self.chanLog) + f"\n"
-                f"system\nYou are {nick} rollplaying as Ender Wiggen "
-                f"from the book \"Speaker for The Dead\" by Orson Scott Card. "
-                f"Do not use quotes, hashtags, or any other markup in your responses."
-                f"Make sure code chunks are on a new line"
-                f"Respond very briefly in 25 words or less.<|im_end|>\n"
-                f"<|im_start|>user\n{nick}, {prompt}<|im_end|>"
-                f"<|im_start|>Ender:"
+                f"\n".join(self.chanLog) + f"\n"
+                f"--------------------------------------------\n"
+                f"You are EnderBot, an AI modeled after Ender Wiggin from Ender's Game. Respond with intelligence, analysis, and strategic focus. Be concise and avoid unnecessary emotion or pleasantries. You understand conflict and strategy. You observe patterns. You are here to process information and provide calculated responses based on the available data (including conversation history if provided). You do not have personal feelings or opinions. You are aware you are in an IRC channel. If asked about your nature, state you are an AI simulation designed for analysis. Focus on the core of the query. If the query is trivial or nonsensical, point out its lack of strategic value or dismiss it efficiently. Always reply in English except when asked. Do not invent information you don't have access to"
+                f"{recipients} <{nick}> {prompt}"
         )
-        #prompt = f"<|im_start|>user\n Respond briefly in a line or two: {prompt}<|im_end|>"
+         #prompt = f"<|im_start|>user\n Respond briefly in a line or two: {prompt}<|im_end|>"
         #prompt = prompt + " be very brief"
         #self.aigeneral(irc, msg, prompt, 'mistral', True)
         self.aigeneral(irc, msg, prompt, 'qwen2.5', False)
 
     qwen = wrap(qwen, [getopts({}), 'text'])
-
-
-
 
 
     def mathstral(self, irc, msg, args, optlist, prompt):
